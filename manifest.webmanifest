@@ -12,8 +12,8 @@
   "minimal-ui"
  ],
  "orientation": "portrait",
- "background_color": "#1a66e8",
- "theme_color": "#1a66e8",
+ "background_color": "#ffffff",
+ "theme_color": "#ffffff",
  "categories": [
   "education"
  ],

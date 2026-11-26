@@ -1,5 +1,5 @@
 /* ScholarHub service worker: installable, works offline */
-const VER='scholarhub-v4',CORE=['./','index.html','arcade.html','papers.json','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png'];
+const VER='scholarhub-v5',CORE=['./','index.html','arcade.html','papers.json','manifest.webmanifest','icon-192.png','icon-512.png','icon-180.png'];
 const LIBS=['https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js','https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js','https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js','https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js','https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js','https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js','https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js','https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'];
 const LIVE=/(firestore|identitytoolkit|securetoken|firebaseinstallations|firebaselogging)\.googleapis\.com|workers\.dev|accounts\.google\.com|apis\.google\.com|\/__\/auth/;
 self.addEventListener('install',e=>e.waitUntil((async()=>{const c=await caches.open(VER);await Promise.all(CORE.map(u=>c.add(u).catch(()=>{})));await Promise.all(LIBS.map(u=>c.add(new Request(u,{mode:'no-cors'})).catch(()=>{})));self.skipWaiting()})()));

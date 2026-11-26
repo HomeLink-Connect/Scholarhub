@@ -9,6 +9,9 @@ manifest.webmanifest  Makes the app installable and full screen
 icon-*.png            App icons
 firestore.rules       Paste into Firebase > Firestore > Rules > Publish
 
-Must be served over https (Firebase Hosting, Netlify, GitHub Pages...). Installing and
-offline mode need https. After the first visit online, the app opens without internet.
-If you update an old install: open the app once online, then close and reopen it.
+Must be served over https. After the first visit online, the app opens without internet.
+
+IMPORTANT FOR PHONES THAT ALREADY INSTALLED THE OLD VERSION:
+iPhone: the white status bar only changes after you delete the old home-screen icon
+and add ScholarHub to the home screen again (Share > Add to Home Screen).
+Android: open the app once online, close it fully, and open it again.
