@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+    function isAdminEmail() { return signedIn() && request.auth.token.email == 'adminscholar@scholarhub.app'; }
+    function me() { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function isA() { return isAdminEmail() || (signedIn() && me().role == 'admin'); }
+    function staff() { return isAdminEmail() || (signedIn() && me().role in ['admin', 'staff']); }
+    function ok(l) { return isAdminEmail() || (signedIn() && (me().role != 'student' || me().level == l)); }
+    function tch(l) { return signedIn() && me().role == 'teacher' && me().status == 'approved' && l in me().get('levels', []); }
+
+    match /users/{u} {
+      allow read: if signedIn() && (request.auth.uid == u || isA());
+      allow create: if signedIn() && request.auth.uid == u && (
+        isAdminEmail() ||
+        (request.resource.data.role == 'student' && request.resource.data.status == 'active') ||
+        (request.resource.data.role == 'teacher' && request.resource.data.status == 'pending'));
+      allow update: if isA() || (request.auth.uid == u
+        && request.resource.data.role == resource.data.role
+        && request.resource.data.status == resource.data.status
+        && request.resource.data.get('level', '') == resource.data.get('level', '')
+        && request.resource.data.get('levels', []) == resource.data.get('levels', []));
+      match /{sub}/{s} {
+        allow read, write: if signedIn() && request.auth.uid == u;
+      }
+    }
+
+    match /resources/{r} {
+      allow read: if signedIn() && (staff() || resource.data.uploadedBy == request.auth.uid
+        || (resource.data.status == 'published' && ok(resource.data.level)));
+      allow create: if signedIn() && (staff() || (tch(request.resource.data.level) && request.resource.data.uploadedBy == request.auth.uid));
+      allow update, delete: if signedIn() && (staff() || resource.data.uploadedBy == request.auth.uid);
+
+      match /chunks/{c} {
+        allow read: if signedIn() && (staff()
+          || get(/databases/$(database)/documents/resources/$(r)).data.uploadedBy == request.auth.uid
+          || (get(/databases/$(database)/documents/resources/$(r)).data.status == 'published'
+              && ok(get(/databases/$(database)/documents/resources/$(r)).data.level)));
+        allow write: if signedIn() && (staff()
+          || get(/databases/$(database)/documents/resources/$(r)).data.uploadedBy == request.auth.uid);
+      }
+    }
+
+    match /announcements/{a} {
+      allow read: if signedIn();
+      allow write: if staff();
+    }
+
+    match /lessons/{l} {
+      allow read: if ok(resource.data.level);
+      allow create: if isA() || tch(request.resource.data.level);
+      allow update, delete: if isA() || resource.data.teacherId == request.auth.uid;
+      match /secret/{s} {
+        allow read: if signedIn() && (get(/databases/$(database)/documents/lessons/$(l)).data.teacherId == request.auth.uid
+          || request.auth.token.email.lower() in get(/databases/$(database)/documents/lessons/$(l)).data.allowed);
+        allow write: if signedIn() && get(/databases/$(database)/documents/lessons/$(l)).data.teacherId == request.auth.uid;
+      }
+    }
+
+    match /quizzes/{q} {
+      allow read: if ok(resource.data.level);
+      allow create: if tch(request.resource.data.level) && request.resource.data.teacherId == request.auth.uid;
+      allow update, delete: if isA() || resource.data.teacherId == request.auth.uid;
+    }
+
+    match /quizResults/{x} {
+      allow create: if signedIn() && request.auth.uid == request.resource.data.studentId;
+      allow read: if signedIn() && (resource.data.studentId == request.auth.uid || resource.data.teacherId == request.auth.uid || isA());
+    }
+
+    match /follows/{f} {
+      allow create: if signedIn() && request.auth.uid == request.resource.data.studentId;
+      allow delete: if signedIn() && request.auth.uid == resource.data.studentId;
+      allow read: if signedIn() && (resource.data.studentId == request.auth.uid || resource.data.teacherId == request.auth.uid);
+    }
+  }
+}

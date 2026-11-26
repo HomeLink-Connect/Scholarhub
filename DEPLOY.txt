@@ -1,0 +1,13 @@
+SCHOLARHUB - how to put it online (all files go in the SAME folder on your host)
+
+index.html            Student and teacher app (the installable app)
+admin.html            Admin portal (separate, not linked from the student app)
+arcade.html           Quizzes, games, exam papers, ScholarHub Bot (opens inside the app)
+papers.json           The 8 exam papers with answers (read as documents)
+sw.js                 Makes the app work offline
+manifest.webmanifest  Makes the app installable and full screen
+icon-*.png            App icons
+firestore.rules       Paste into Firebase > Firestore > Rules > Publish
+
+Must be served over https (Firebase Hosting, Netlify, GitHub Pages...). Installing and
+offline mode need https. After the first visit online, the app opens without internet.
