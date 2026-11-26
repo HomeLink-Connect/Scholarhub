@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="ScholarHub"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script>try{document.documentElement.dataset.theme=localStorage.sh_theme||"light"}catch(e){}</script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="ScholarHub"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><script>try{document.documentElement.dataset.theme=localStorage.sh_theme||"light"}catch(e){}</script>
 <link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#1a66e8"><link rel="apple-touch-icon" href="icon-192.png">
 <title>ScholarHub – Learn. Prepare. Excel.</title>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -174,6 +174,24 @@ html[data-theme=glass] .ap,html[data-theme=glass] .cn{position:relative;z-index:
 
 .dvn small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}@media(max-width:560px){.dvb.hm{display:none}}
 .inarc #ofl{display:none!important}
+/* ===== v4: full-height app frame + ZimPro-style bottom nav ===== */
+:root{--safe-b:env(safe-area-inset-b,0px);--safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px)}
+html,body{height:100%;min-height:100dvh;touch-action:pan-y;overscroll-behavior:none;overscroll-behavior-y:contain}
+html{background:var(--sf)}
+.hs,.arow,.chs,.pl,.dvs,.dvx,.xg,.thg,.qs>div,.pvb,.mo .bx,textarea,input,select{touch-action:pan-x pan-y}
+.ap{max-width:480px;margin:0 auto;min-height:100dvh;position:relative;background:var(--bg);padding:0 0 calc(86px + var(--safe-b))!important}
+@media(min-width:768px){.ap{box-shadow:0 0 0 1px var(--ln),0 10px 40px rgba(15,27,51,.12)}}
+.tb{padding-top:calc(.55rem + var(--safe-t))}
+.cn{max-width:none;padding:1rem}.chs{max-width:none}
+.tabs{position:fixed!important;left:50%!important;right:auto!important;top:auto!important;bottom:0!important;transform:translateX(-50%);width:100%;max-width:480px;height:auto!important;z-index:50;display:flex!important;align-items:flex-end;grid-template-columns:none;padding:8px 4px calc(8px + var(--safe-b))!important;background:var(--cd);border-top:1px solid var(--ln);border-right:0!important}
+.tabs a{flex:1;display:flex!important;flex-direction:column;align-items:center;justify-content:flex-end;gap:3px;padding:6px 2px;font-size:10.5px;font-weight:700;color:var(--mu);position:relative;min-width:0}
+.tabs a span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tabs svg.i{width:22px;height:22px}.tabs a.on{color:var(--bl)}
+.tabs .av{border:1.5px solid var(--mu);box-sizing:border-box}.tabs a.on .av{border-color:var(--bl)}
+.tabs .fab{flex:none;width:54px;height:54px;margin:-26px 6px 4px}
+.qs>div{max-width:480px}.arc{max-width:none}
+#ofl{bottom:calc(92px + var(--safe-b))}
+@media(min-width:900px){.ap{padding:0 0 calc(86px + var(--safe-b))!important}.tabs{inset:auto auto 0 50%!important;width:100%;height:auto!important;padding-top:8px!important;grid-auto-rows:auto}.fab{margin:-26px 6px 4px}.rc{flex-basis:205px}.chs{padding-left:1rem}}
 </style></head>
 <body><div id="app"></div><div id="ts" aria-live="polite"></div>
 <script>
@@ -624,4 +642,7 @@ function quizPlay(z){let i=0,sc=0,wrong=[];const qs=z.qs.map(q=>({...q})),draw=(
  pr.insertAdjacentHTML('beforebegin',`<div class="sg">Appearance</div><div class="stg"><div class="thg">${THEMES.map(x=>`<button data-t="${x[0]}" class="${x[0]==cur?'on':''}" onclick="pickTheme('${x[0]}')"><i style="background:${x[2]};box-shadow:inset 0 -10px 0 ${x[3]}"></i>${x[1]}</button>`).join('')}</div></div><div class="sg">App</div><div class="stg">${isSA()?srow('shield','ScholarHub app','Installed. Opening full screen.'):srow('shield','Install ScholarHub','Full-screen app on your home screen, works offline',"installApp()")}${srow('full'in ICO?'full':'file','Full screen','Hide the browser bar',"toggleFS(this)",`<span class="sw ${document.fullscreenElement?'on':''}"></span>`)}${srow('book','Offline library','Documents saved for reading without internet',"go('#/offline')")}${srow('up','Open a file','Read a downloaded PDF, Word, Excel or PowerPoint file',"pickFile()")}${srow('star','My quizzes','Import or paste a quiz of your choice',"go('#/myquiz')")}</div>`)}}
 
 addEventListener('hashchange',()=>document.body.classList.toggle('inarc',/^#\/arcade/.test(location.hash)));document.body.classList.toggle('inarc',/^#\/arcade/.test(location.hash));
+
+/* ===== v4: profile photo in the bottom nav (like ZimPro) ===== */
+{const _sh=shell;shell=function(){_sh.apply(null,arguments);const a=$('.tabs a[href="#/me"]');if(a){const s=a.querySelector('svg');if(s)s.outerHTML=av(PROF,24)}}}
 </script></body></html>
