@@ -1,100 +1,20 @@
 {
- "name": "ScholarHub",
- "short_name": "ScholarHub",
- "description": "Past papers, notes, quizzes, games and live classes. Works offline.",
- "id": "./index.html",
- "start_url": "./index.html",
- "scope": "./",
- "display": "fullscreen",
- "display_override": [
-  "fullscreen",
-  "standalone",
-  "minimal-ui"
- ],
- "orientation": "any",
- "background_color": "#1a66e8",
- "theme_color": "#1a66e8",
- "categories": [
-  "education"
- ],
- "icons": [
-  {
-   "src": "icon-192.png",
-   "sizes": "192x192",
-   "type": "image/png",
-   "purpose": "any"
-  },
-  {
-   "src": "icon-512.png",
-   "sizes": "512x512",
-   "type": "image/png",
-   "purpose": "any"
-  },
-  {
-   "src": "icon-maskable-512.png",
-   "sizes": "512x512",
-   "type": "image/png",
-   "purpose": "maskable"
-  }
- ],
- "shortcuts": [
-  {
-   "name": "Exam papers",
-   "url": "./index.html#/l/olevel/papers",
-   "icons": [
-    {
-     "src": "icon-192.png",
-     "sizes": "192x192"
-    }
-   ]
-  },
-  {
-   "name": "Games",
-   "url": "./index.html#/l/olevel/games",
-   "icons": [
-    {
-     "src": "icon-192.png",
-     "sizes": "192x192"
-    }
-   ]
-  },
-  {
-   "name": "Offline library",
-   "url": "./index.html#/offline",
-   "icons": [
-    {
-     "src": "icon-192.png",
-     "sizes": "192x192"
-    }
-   ]
-  }
- ],
- "file_handlers": [
-  {
-   "action": "./index.html#/open",
-   "accept": {
-    "application/pdf": [
-     ".pdf"
-    ],
-    "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
-     ".docx"
-    ],
-    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-     ".xlsx"
-    ],
-    "application/vnd.openxmlformats-officedocument.presentationml.presentation": [
-     ".pptx"
-    ],
-    "image/*": [
-     ".png",
-     ".jpg",
-     ".jpeg",
-     ".webp"
-    ],
-    "text/plain": [
-     ".txt"
-    ]
-   }
-  }
- ]
+  "id": "./",
+  "name": "ZimPro-Linkup",
+  "short_name": "ZimPro",
+  "description": "Zimbabwe's free marketplace for jobs, services & properties.",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#1877F2",
+  "theme_color": "#FFFFFF",
+  "lang": "en",
+  "categories": ["business", "social", "lifestyle"],
+  "icons": [
+    { "src": "icons/zpl-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/zpl-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/zpl-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
 }
